@@ -1,0 +1,6 @@
+<h2>Categorize</h2>
+<%= image_tag @kitten.image %>
+<%= form_for [@kitten, @categorization] do |form| %>
+  <%= form.collection_select(:category_id, @categories, :id, :name, include_blank: "Please choose a category..." ) %>
+  <%= form.submit "Add Category" %>
+<% end %>
