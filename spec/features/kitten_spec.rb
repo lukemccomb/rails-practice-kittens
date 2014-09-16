@@ -52,6 +52,29 @@ feature 'Kittens' do
     end
   end
 
+  scenario 'category form cannot be submitted without selecting category' do
+    find(".kitten-link").click
+    click_on "Add Category"
+    expect(page).to have_content("Category can't be blank")
+  end
+
+  scenario 'categorizations cannot be repetitive' do
+    find(".kitten-link").click
+    select "Cutest!", from: "categorization_category_id"
+    click_on "Add Category"
+
+    expect(page.current_path).to eq(root_path)
+    within(".kitten") do
+      expect(page).to have_content("Cutest!")
+    end
+
+    find(".kitten-link").click
+    select "Cutest!", from: "categorization_category_id"
+    click_on "Add Category"
+    expect(page).to have_content("Category has already been taken")
+
+  end
+
   def login(user)
     visit root_path
     click_on "Login"
